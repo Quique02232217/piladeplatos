@@ -1,0 +1,133 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"> 
+    <h:head>
+        <title>Lista platos sucios</title>
+    </h:head>
+    <h:body>
+        <h:form>
+            <div class="contactividades">
+                <div class ="pfa">
+                    <p:panelGrid columns="2">
+                        <h:outputText value="Codigo"/>
+                        <p:inputText value = "#{platoSucioController.platoentregado.codigo}"/>
+
+                        <h:outputText value = "Tipo (Redondo o cuadrado)"/>
+                        <p:inputText value="#{platoSucioController.platoentregado.tipo}"/>
+
+                    </p:panelGrid>
+                    <h:commandButton value="Entregar" action="#{platoSucioController.agregarALaTablaEntregados()}"/>
+                </div>
+
+                <div class = "pta">
+                    <h1>Platos entregados</h1>
+                    <p:dataTable var="plato" value="#{platoSucioController.listaplatosentregados}">
+                        <p:column headerText="Codigo">
+                            <h:outputText value="#{plato.codigo}"/>
+                        </p:column> 
+                        <p:column headerText="Tipo">
+                            <h:outputText value="#{plato.tipo}"/>
+                        </p:column>
+                        <p:column headerText="Opciones">
+                            <h:commandButton value="Agregar a pila" action="#{platoSucioController.agregarAlaPilaParaLavar(plato)}"/>
+                        </p:column>
+                    </p:dataTable>
+                    <hr/>
+                    <h1>Entregar platos</h1>
+                    <div class ="pta">
+                        <p:dataTable var = "pla" value="#{platoSucioController.piladeplatosentregados}">
+                            <p:column headerText="Codigo">
+                                <h:outputText value="#{pla.codigo}"/>
+                            </p:column> 
+                            <p:column headerText="Tipo">
+                                <h:outputText value="#{pla.tipo}"/>
+                            </p:column>
+                            <p:column headerText="Procesar">
+                                <h:commandButton value="Procesar" action="#{platoSucioController.procesarPlatos(pla)}"/>
+                            </p:column>
+
+                        </p:dataTable>
+                        <hr/>
+                        
+                        
+                        <h1>Cuadro de procesos</h1>
+                        <div class = "pfa">
+                            <p:dataTable var = "platoproceso" value="#{platoSucioController.listadeplatosenproceso}">
+                                <p:column headerText="Codigo">
+                                    <h:outputText value="#{platoproceso.codigo}"/>
+                                </p:column> 
+                                <p:column headerText="Tipo">
+                                    <h:outputText value="#{platoproceso.tipo}"/>
+                                </p:column>
+
+                                <p:column headerText="Procesos">
+                                    <h:commandButton value="Se limpio" action="#{platoSucioController.limpiarPlatos(platoproceso)}"/>
+                                    <h:commandButton value="No se limpio" action="#{platoSucioController.identificarPlatosnolimpios(platoproceso)}"/>
+                                    <h:commandButton value="Se daño" action="#{platoSucioController.identificarPlatosDañados(platoproceso)}"/>
+                                </p:column>
+                            </p:dataTable>
+
+                        </div>
+                        <hr/>
+                        
+                        
+                        
+                        <h1>Tabla de platos limpios</h1>
+                        <div class="pta">
+                            <p:dataTable var="platolimpio" value="#{platoSucioController.listadeplatoslimpios}">
+                                <p:column headerText="Codigo">
+                                    <h:outputText value="#{platolimpio.codigo}"/>
+                                </p:column> 
+                                <p:column headerText="Tipo">
+                                    <h:outputText value="#{platolimpio.tipo}"/>
+                                </p:column>
+                            </p:dataTable>
+
+                        </div>
+                        <hr/>
+                        <h1>Tabla de platos dañados</h1>
+                        <div class="pfa">
+                            <p:dataTable var = "platodañado" value="#{platoSucioController.listadeplatosdañados}">
+                                <p:column headerText="Codigo">
+                                    <h:outputText value="#{platodañado.codigo}"/>
+                                </p:column> 
+                                <p:column headerText="Tipo">
+                                    <h:outputText value="#{platodañado.tipo}"/>
+                                </p:column>
+                            </p:dataTable>
+                        </div>
+                    </div>
+                </div>
+
+            </div> 
+        </h:form>
+
+
+        <style>
+            .contactividades {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                grid-template-rows: 1fr;
+                gap: 0px 0px;
+                grid-auto-flow: row;
+                grid-template-areas:
+                    "pfa pta";
+            }
+
+            .pfa {
+                grid-area: pfa;
+            }
+
+            .pta {
+                grid-area: pta;
+            }
+
+        </style>
+
+
+    </h:body>
+</html>
+
